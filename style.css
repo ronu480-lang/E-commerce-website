@@ -56,10 +56,7 @@ body {
   padding-top: 70px;
 }
 
-/* =========================
-   Sidebar
-========================= */
-
+/* Sidebar */
 .sidebar {
   width: 255px;
   background-color: #eef4ff;
@@ -78,8 +75,6 @@ body {
   color: #111827;
 }
 
-/* Buttons & Select */
-
 .sidebar button,
 .sidebar select {
   width: 100%;
@@ -87,25 +82,23 @@ body {
   margin-bottom: 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background: white;
-  color: #111827;
-  font-weight: bold;
+  background: #f9fafb;
   cursor: pointer;
-  transition: 0.3s;
 }
-
-/* Hover Effect */
 
 .sidebar button:hover {
-  background: #16a34a;
-  color: white;
+  background: #2563eb;
+  color: black;
 }
 
-/* Active Button */
-
-.sidebar button.active {
-  background: #16a34a;
+.sidebar button:nth-of-type(2) {
+  background: white;
   color: white;
+  font-weight: bold;
+}
+
+.sidebar button:nth-of-type(2):hover {
+  background: #15803d;
 }
 
 /* Content */
@@ -312,10 +305,51 @@ body {
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-  .navbar {
-    height: 70px;
+ /* Mobile Navbar */
+@media (max-width: 768px) {
+
+  .navbar{
+    height: 60px;
     padding: 0 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
   }
+
+  .navbar h2{
+    font-size: 16px;
+    white-space: nowrap;
+  }
+
+  #searchInput{
+    width: 90px;
+    height: 30px;
+    margin-left: 0;
+    padding: 5px;
+    font-size: 10px;
+  }
+
+  .auth-box{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  #userName{
+    font-size: 10px;
+    max-width: 40px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .auth-box button{
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+
+}
 
   #searchInput {
     width: 120px;
