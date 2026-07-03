@@ -93,8 +93,8 @@ body {
 
 .sidebar button:nth-of-type(2) {
   background: white;
-  color: white;
-  font-weight: bold;
+  color: black;
+  
 }
 
 .sidebar button:nth-of-type(2):hover {
