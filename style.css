@@ -27,7 +27,7 @@ body {
 
 #searchInput {
   width: 320px;
-  height: 40px;
+  height: 35px;
   padding: 12px;
   border-radius: 8px;
   border: none;
@@ -86,21 +86,25 @@ body {
   cursor: pointer;
 }
 
-.sidebar button:hover {
-  background: #2563eb;
-  color: black;
+#homeBtn{
+    /* background:#2563eb; */
+    color:black;
 }
 
-.sidebar button:nth-of-type(2) {
-  background: white;
-  color: black;
-  
+#homeBtn:hover{
+    background:#1d4ed8;
+    color: white;
 }
 
-.sidebar button:nth-of-type(2):hover {
-  background: #15803d;
+#orderBtn{
+    background:#fff;
+    color:#000;
 }
 
+#orderBtn:hover{
+    background:#16a34a;
+    color:#fff;
+}
 /* Content */
 .content {
   flex: 1;
