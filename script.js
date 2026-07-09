@@ -80,6 +80,7 @@ for (let i = 1; i <= 60; i++) {
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let user = JSON.parse(localStorage.getItem("user")) || null;
+let selectedPayment = "";
 
 const productList = document.getElementById("productList");
 const searchInput = document.getElementById("searchInput");
@@ -120,12 +121,34 @@ function displayProducts(data) {
         <p class="price">₹${product.price}</p>
         <p>⭐ ${product.rating}</p>
 
-        <button class="btn" onclick="showDetails(${product.id})">
-          View Details
-        </button>
+        <div class="qty-box">
+          <button onclick="decreaseProductQty(${product.id})">-</button>
+          <span id="qty-${product.id}">1</span>
+          <button onclick="increaseProductQty(${product.id})">+</button>
+        </div>
+
+        <button class="btn" onclick="showDetails(${product.id})">View Details</button>
+        <button class="buy-card-btn" onclick="buyProductFromCard(${product.id})">Buy</button>
       </div>
     `;
   });
+}
+
+function increaseProductQty(id) {
+  const qtySpan = document.getElementById(`qty-${id}`);
+  let qty = Number(qtySpan.innerText);
+  qty++;
+  qtySpan.innerText = qty;
+}
+
+function decreaseProductQty(id) {
+  const qtySpan = document.getElementById(`qty-${id}`);
+  let qty = Number(qtySpan.innerText);
+
+  if (qty > 1) {
+    qty--;
+    qtySpan.innerText = qty;
+  }
 }
 
 function filterProducts() {
@@ -178,10 +201,8 @@ function showDetailsPage(id) {
   document.getElementById("productDetail").innerHTML = `
     <div class="detail-box">
       <img src="${product.image}" alt="${product.name}">
-
       <div>
         <h2>${product.name}</h2>
-
         <p><b>Category:</b> ${product.category}</p>
         <p><b>Price:</b> ₹${product.price}</p>
         <p><b>Rating:</b> ⭐ ${product.rating}</p>
@@ -191,23 +212,112 @@ function showDetailsPage(id) {
         <p>Very good product. Value for money.</p>
 
         <div class="detail-buttons">
-          <button class="btn" onclick="addToCart(${product.id})">
-            Add to Cart
-          </button>
-
-          <button class="buy-card-btn" onclick="buySingleProduct(${product.id})">
-            Buy
-          </button>
+          <button class="btn" onclick="addToCart(${product.id})">Add to Cart</button>
+          <button class="buy-card-btn" onclick="buySingleProduct(${product.id})">Buy</button>
         </div>
       </div>
     </div>
   `;
 }
+function showProfile() {
+
+  // Login user ki details show karo
+  document.getElementById("userName").innerText =
+    user.name || localStorage.getItem("userName") || "";
+
+  document.getElementById("userEmail").innerText =
+    user.email || localStorage.getItem("userEmail") || "";
+
+  document.getElementById("profileBox").style.display = "flex";
+}
+
+function closeProfile() {
+
+  document.getElementById("profileBox").style.display = "none";
+
+}
+
+function logoutUser() {
+
+  // Popup band karo
+  closeProfile();
+
+  // User data remove karo
+  localStorage.removeItem("userName");
+  localStorage.removeItem("userEmail");
+
+  // Login page dikhao
+  document.getElementById("loginPage").style.display = "flex";
+
+  // Website hide karo
+  document.querySelector(".main-layout").style.display = "none";
+  document.querySelector(".footer").style.display = "none";
+
+  // Agar user object use kar rahe ho to usko bhi clear kar do
+  user = null;
+}
+function loginUser() {
+
+  let email = document.getElementById("loginEmail").value.trim();
+  let password = document.getElementById("loginPassword").value.trim();
+
+  if (email === "" || password === "") {
+    alert("Please fill all login details");
+    return;
+  }
+
+  user = {
+    email: email,
+    name: email.split("@")[0]
+  };
+
+  localStorage.setItem("user", JSON.stringify(user));
+
+  document.getElementById("loginPage").style.display = "none";
+  document.querySelector(".main-layout").style.display = "flex";
+  document.querySelector(".footer").style.display = "block";
+
+  updateAuthUI();
+  showHomePage();
+}
+
+function logoutUser() {
+  localStorage.removeItem("user");
+  localStorage.removeItem("cart");
+
+  user = null;
+  cart = [];
+
+  updateAuthUI();
+  updateCartCount();
+  showHome();
+}
+
+function updateAuthUI() {
+  const userName = document.getElementById("userName");
+  const sideUserName = document.getElementById("sideUserName");
+  const sideUserEmail = document.getElementById("sideUserEmail");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginPage = document.getElementById("loginPage");
+
+  if (user) {
+    if (userName) userName.innerText = `Hi, ${user.name}`;
+    if (sideUserName) sideUserName.innerText = user.name;
+    if (sideUserEmail) sideUserEmail.innerText = user.email || "-";
+    if (logoutBtn) logoutBtn.classList.remove("hidden");
+    if (loginPage) loginPage.style.display = "none";
+  } else {
+    if (userName) userName.innerText = "";
+    if (sideUserName) sideUserName.innerText = "-";
+    if (sideUserEmail) sideUserEmail.innerText = "-";
+    if (logoutBtn) logoutBtn.classList.add("hidden");
+    if (loginPage) loginPage.style.display = "flex";
+  }
+}
 
 function addToCart(id) {
   if (!user) {
-    alert("Please login first");
-    loginUser();
+    updateAuthUI();
     return;
   }
 
@@ -232,10 +342,50 @@ function showCart() {
   setRoute("cart");
 }
 
+function buyProductFromCard(id) {
+  if (!user) {
+    updateAuthUI();
+    return;
+  }
+
+  const product = products.find(item => item.id === id);
+  const qty = Number(document.getElementById(`qty-${id}`).innerText);
+
+  cart = [{
+    ...product,
+    quantity: qty
+  }];
+
+  saveCart();
+  updateCartCount();
+
+  localStorage.setItem("showCheckout", "yes");
+  showCart();
+}
+
+function buySingleProduct(id) {
+  if (!user) {
+    updateAuthUI();
+    return;
+  }
+
+  const product = products.find(item => item.id === id);
+
+  cart = [{
+    ...product,
+    quantity: 1
+  }];
+
+  saveCart();
+  updateCartCount();
+
+  localStorage.setItem("showCheckout", "yes");
+  showCart();
+}
+
 function showCartPage() {
   if (!user) {
-    alert("Please login first to view cart");
-    loginUser();
+    updateAuthUI();
     setRoute("home");
     return;
   }
@@ -246,6 +396,19 @@ function showCartPage() {
   document.getElementById("cartPage").classList.remove("hidden");
 
   displayCart();
+
+  const checkoutSection = document.getElementById("checkoutSection");
+
+  if (checkoutSection) {
+    if (localStorage.getItem("showCheckout") === "yes") {
+      checkoutSection.style.display = "block";
+      checkoutSection.scrollIntoView({ behavior: "smooth" });
+    } else {
+      checkoutSection.style.display = "none";
+    }
+  }
+
+  localStorage.removeItem("showCheckout");
 }
 
 function displayCart() {
@@ -268,6 +431,7 @@ function displayCart() {
           <h3>${item.name}</h3>
           <p>Price: ₹${item.price}</p>
           <p>Quantity: ${item.quantity}</p>
+          <p>Total: ₹${item.price * item.quantity}</p>
         </div>
 
         <div>
@@ -282,10 +446,35 @@ function displayCart() {
   totalPrice.innerText = `Total: ₹${total}`;
 }
 
+let selectedPaymentBox = "";
+
+window.showPaymentBox = function (boxId, radio) {
+  const box = document.getElementById(boxId);
+
+  if (!box) return;
+
+  // same option dobara click -> close
+  if (selectedPaymentBox === boxId) {
+    box.style.display = "none";
+    radio.checked = false;
+    selectedPaymentBox = "";
+    return;
+  }
+
+  // sabhi scanner hide
+  document.querySelectorAll(".payment-box").forEach(function (item) {
+    item.style.display = "none";
+  });
+
+  // selected scanner show
+  box.style.display = "block";
+  radio.checked = true;
+  selectedPaymentBox = boxId;
+};
+
 function buyNow() {
   if (!user) {
-    alert("Please login first.");
-    loginUser();
+    updateAuthUI();
     return;
   }
 
@@ -294,69 +483,134 @@ function buyNow() {
     return;
   }
 
-  let total = 0;
+  const checkoutSection = document.getElementById("checkoutSection");
 
-  cart.forEach(item => {
-    total += item.price * item.quantity;
-  });
-
-  let confirmOrder = confirm(
-    `Total Amount: ₹${total}\n\nDo you want to place this order?`
-  );
-
-  if (confirmOrder) {
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-    cart.forEach(item => {
-      orders.push({
-        ...item,
-        orderDate: new Date().toLocaleString()
-      });
-    });
-
-    localStorage.setItem("orders", JSON.stringify(orders));
-
-    alert("🎉 Order Placed Successfully!");
-
-    cart = [];
-    saveCart();
-    updateCartCount();
-    displayCart();
-
-    showHome();
+  if (checkoutSection) {
+    checkoutSection.style.display = "block";
+    checkoutSection.scrollIntoView({ behavior: "smooth" });
   }
 }
 
-function buySingleProduct(id) {
+function openPayment(boxId) {
+
+  // Sabhi payment boxes hide
+  let allBoxes = document.querySelectorAll(".payment-box");
+
+  allBoxes.forEach(function (box) {
+    box.style.display = "none";
+  });
+
+  // Click kiya hua payment box show
+  let selectedBox = document.getElementById(boxId);
+
+  if (selectedBox) {
+    selectedBox.style.display = "block";
+  }
+}
+
+
+function placeOrder() {
   if (!user) {
-    alert("Please login first.");
-    loginUser();
+    updateAuthUI();
     return;
   }
 
-  const product = products.find(item => item.id === id);
-
-  if (!product) {
-    alert("Product not found.");
+  if (cart.length === 0) {
+    alert("Your cart is empty.");
     return;
   }
 
-  let confirmBuy = confirm(`Buy ${product.name} for ₹${product.price}?`);
+  let fullName = document.getElementById("fullName").value.trim();
+  let mobile = document.getElementById("mobile").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let address = document.getElementById("address").value.trim();
+  let city = document.getElementById("city").value.trim();
+  let state = document.getElementById("state").value.trim();
+  let pincode = document.getElementById("pincode").value.trim();
 
-  if (confirmBuy) {
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  let payment = document.querySelector('input[name="payment"]:checked');
 
+  if (
+    fullName === "" ||
+    mobile === "" ||
+    email === "" ||
+    address === "" ||
+    city === "" ||
+    state === "" ||
+    pincode === ""
+  ) {
+    alert("Please fill all checkout details.");
+    return;
+  }
+
+  if (mobile.length !== 10) {
+    alert("Please enter valid 10 digit mobile number.");
+    return;
+  }
+
+  if (pincode.length !== 6) {
+    alert("Please enter valid 6 digit pincode.");
+    return;
+  }
+
+  if (!payment) {
+    alert("Please select payment method.");
+    return;
+  }
+
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  cart.forEach(item => {
     orders.push({
-      ...product,
-      quantity: 1,
-      orderDate: new Date().toLocaleString()
+      ...item,
+      orderId: "ORD" + Date.now(),
+      customerName: fullName,
+      mobile: mobile,
+      email: email,
+      address: address,
+      city: city,
+      state: state,
+      pincode: pincode,
+      paymentMethod: payment.value,
+      orderDate: new Date().toLocaleString(),
+      status: "Order Confirmed ✅"
     });
+  });
 
-    localStorage.setItem("orders", JSON.stringify(orders));
+  localStorage.setItem("orders", JSON.stringify(orders));
 
-    alert("🎉 Order Placed Successfully!");
+  cart = [];
+  saveCart();
+  updateCartCount();
+  displayCart();
+  clearCheckoutForm();
 
-    showHome();
+  alert("🎉 Order Placed Successfully!");
+
+  showOrders();
+}
+
+function clearCheckoutForm() {
+  const fields = ["fullName", "mobile", "email", "address", "city", "state", "pincode"];
+
+  fields.forEach(id => {
+    const field = document.getElementById(id);
+    if (field) field.value = "";
+  });
+
+  document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.checked = false;
+  });
+
+  document.querySelectorAll(".payment-box").forEach(box => {
+    box.classList.remove("active");
+  });
+
+  selectedPayment = "";
+
+  const checkoutSection = document.getElementById("checkoutSection");
+  if (checkoutSection) {
+    checkoutSection.style.display = "none";
   }
 }
 
@@ -366,6 +620,12 @@ function showOrders() {
 }
 
 function showOrdersPage() {
+  if (!user) {
+    updateAuthUI();
+    setRoute("home");
+    return;
+  }
+
   document.getElementById("homePage").classList.add("hidden");
   document.getElementById("detailPage").classList.add("hidden");
   document.getElementById("cartPage").classList.add("hidden");
@@ -383,39 +643,42 @@ function showOrdersPage() {
 
   orders.forEach((item, index) => {
     ordersList.innerHTML += `
-      <div class="cart-item">
+      <div class="cart-item order-card">
         <div>
           <h3>${item.name}</h3>
-          <p>Price: ₹${item.price}</p>
-          <p>Quantity: ${item.quantity || 1}</p>
-          <p>Order Date: ${item.orderDate}</p>
+          <p><b>Order ID:</b> ${item.orderId || "N/A"}</p>
+          <p><b>Price:</b> ₹${item.price}</p>
+          <p><b>Quantity:</b> ${item.quantity || 1}</p>
+          <p><b>Total:</b> ₹${item.price * (item.quantity || 1)}</p>
+          <p><b>Customer:</b> ${item.customerName || "N/A"}</p>
+          <p><b>Mobile:</b> ${item.mobile || "N/A"}</p>
+          <p><b>Email:</b> ${item.email || "N/A"}</p>
+          <p><b>Address:</b> ${item.address || "N/A"}, ${item.city || ""}, ${item.state || ""} - ${item.pincode || ""}</p>
+          <p><b>Payment:</b> ${item.paymentMethod || "N/A"}</p>
+          <p><b>Order Date:</b> ${item.orderDate}</p>
+          <p><b>Status:</b> ${item.status || "Order Confirmed ✅"}</p>
         </div>
 
-        <button class="remove" onclick="removeOrder(${index})">
-          Remove
-        </button>
+        <button class="remove" onclick="removeOrder(${index})">Remove</button>
       </div>
     `;
   });
 }
 
+
+
 function removeOrder(index) {
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
   orders.splice(index, 1);
-
   localStorage.setItem("orders", JSON.stringify(orders));
-
   showOrdersPage();
 }
 
 function increaseQty(id) {
   const item = cart.find(product => product.id === id);
-
   if (!item) return;
 
   item.quantity++;
-
   saveCart();
   displayCart();
   updateCartCount();
@@ -423,7 +686,6 @@ function increaseQty(id) {
 
 function decreaseQty(id) {
   const item = cart.find(product => product.id === id);
-
   if (!item) return;
 
   if (item.quantity > 1) {
@@ -439,7 +701,6 @@ function decreaseQty(id) {
 
 function removeItem(id) {
   cart = cart.filter(product => product.id !== id);
-
   saveCart();
   displayCart();
   updateCartCount();
@@ -466,58 +727,6 @@ function showHomePage() {
   document.getElementById("detailPage").classList.add("hidden");
   document.getElementById("cartPage").classList.add("hidden");
   document.getElementById("ordersPage").classList.add("hidden");
-}
-
-function loginUser() {
-  let name = prompt("Enter your name:");
-
-  if (name === null || name.trim() === "") {
-    alert("Please enter your name");
-    return;
-  }
-
-  user = {
-    name: name.trim()
-  };
-
-  localStorage.setItem("user", JSON.stringify(user));
-  updateAuthUI();
-  alert("Login successful");
-}
-
-function logoutUser() {
-  let confirmLogout = confirm("Are you sure you want to logout?");
-
-  if (confirmLogout) {
-    localStorage.removeItem("user");
-    localStorage.removeItem("cart");
-    localStorage.removeItem("orders");
-
-    user = null;
-    cart = [];
-
-    updateAuthUI();
-    updateCartCount();
-    showHome();
-
-    alert("Logout successful");
-  }
-}
-
-function updateAuthUI() {
-  const userName = document.getElementById("userName");
-  const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  if (user) {
-    userName.innerText = `Hi, ${user.name}`;
-    loginBtn.classList.add("hidden");
-    logoutBtn.classList.remove("hidden");
-  } else {
-    userName.innerText = "";
-    loginBtn.classList.remove("hidden");
-    logoutBtn.classList.add("hidden");
-  }
 }
 
 displayProducts(products);
