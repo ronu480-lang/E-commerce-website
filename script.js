@@ -121,35 +121,18 @@ function displayProducts(data) {
         <p class="price">₹${product.price}</p>
         <p>⭐ ${product.rating}</p>
 
-        <div class="qty-box">
-          <button onclick="decreaseProductQty(${product.id})">-</button>
-          <span id="qty-${product.id}">1</span>
-          <button onclick="increaseProductQty(${product.id})">+</button>
-        </div>
+        <button class="btn" onclick="showDetails(${product.id})">
+          View Details
+        </button>
 
-        <button class="btn" onclick="showDetails(${product.id})">View Details</button>
-        <button class="buy-card-btn" onclick="buyProductFromCard(${product.id})">Buy</button>
+        <button class="buy-card-btn" onclick="buyProductFromCard(${product.id})">
+          Buy
+        </button>
       </div>
     `;
   });
 }
 
-function increaseProductQty(id) {
-  const qtySpan = document.getElementById(`qty-${id}`);
-  let qty = Number(qtySpan.innerText);
-  qty++;
-  qtySpan.innerText = qty;
-}
-
-function decreaseProductQty(id) {
-  const qtySpan = document.getElementById(`qty-${id}`);
-  let qty = Number(qtySpan.innerText);
-
-  if (qty > 1) {
-    qty--;
-    qtySpan.innerText = qty;
-  }
-}
 
 function filterProducts() {
   let searchValue = searchInput.value.toLowerCase();
@@ -322,6 +305,12 @@ function addToCart(id) {
   }
 
   const product = products.find(item => item.id === id);
+
+  if (!product) {
+    alert("Product not found");
+    return;
+  }
+
   const existingItem = cart.find(item => item.id === id);
 
   if (existingItem) {
@@ -335,9 +324,15 @@ function addToCart(id) {
 
   saveCart();
   updateCartCount();
-  alert("Product added to cart");
-}
 
+  // Success message ko save karo
+  localStorage.setItem("cartMessage", "yes");
+
+  alert("Product added to cart");
+
+  // Cart page open karo
+  showCart();
+}
 function showCart() {
   setRoute("cart");
 }
@@ -349,11 +344,15 @@ function buyProductFromCard(id) {
   }
 
   const product = products.find(item => item.id === id);
-  const qty = Number(document.getElementById(`qty-${id}`).innerText);
+
+  if (!product) {
+    alert("Product not found");
+    return;
+  }
 
   cart = [{
     ...product,
-    quantity: qty
+    quantity: 1
   }];
 
   saveCart();
@@ -415,11 +414,39 @@ function displayCart() {
   const cartItems = document.getElementById("cartItems");
   const totalPrice = document.getElementById("totalPrice");
 
-  cartItems.innerHTML = "";
+  cartItems.innerHTML = `
+    <h4 style="color:#2563eb; margin-bottom:10px;">
+      Your Cart
+    </h4>
+  `;
+
   let total = 0;
 
+  // Add to Cart ke baad hi success message show hoga
+  const cartMessage = localStorage.getItem("cartMessage");
+
+  if (cartMessage === "yes") {
+    cartItems.innerHTML += `
+      <p style="
+        color:green;
+        font-weight:bold;
+        margin-bottom:15px;
+      ">
+        ✅ Product Added to Cart Successfully
+      </p>
+    `;
+
+    // Message sirf ek baar show hoga
+    localStorage.removeItem("cartMessage");
+  }
+
   if (cart.length === 0) {
-    cartItems.innerHTML = "<p>Your cart is empty.</p>";
+    cartItems.innerHTML += `
+      <p>Your cart is empty.</p>
+    `;
+
+    totalPrice.innerText = "Total: ₹0";
+    return;
   }
 
   cart.forEach(item => {
@@ -436,8 +463,14 @@ function displayCart() {
 
         <div>
           <button onclick="increaseQty(${item.id})">+</button>
+
           <button onclick="decreaseQty(${item.id})">-</button>
-          <button class="remove" onclick="removeItem(${item.id})">Remove</button>
+
+          <button
+            class="remove"
+            onclick="removeItem(${item.id})">
+            Remove
+          </button>
         </div>
       </div>
     `;
