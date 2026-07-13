@@ -184,8 +184,8 @@ body {
 
   border: 1px solid #bfdbfe;
   border-radius: 8px;
-  background: lightblue;
-  color: #111827;
+  background:  #406be0;
+  color: white;
 
   font-size: 15px;
   cursor: pointer;
@@ -193,14 +193,14 @@ body {
 }
 
 #homeBtn:hover {
-  background: #377cd1;
+  background: #1d4ed8;
   color: white;
 }
 
 #homeBtn.active {
-  background: #2563eb;
+  background: #1d4ed8;
   color: white;
-  border-color: #2563eb;
+  border-color: #1d4ed8;
 }
 
 /* =========================
@@ -214,8 +214,8 @@ body {
 
   border: 1px solid #bbf7d0;
   border-radius: 8px;
-  background: lightgreen;
-  color: #111827;
+  background:  #21c15b;
+  color: white;
 
   font-size: 15px;
   cursor: pointer;
@@ -223,12 +223,12 @@ body {
 }
 
 #orderBtn:hover {
-  background: #07e057;
+  background:  #16a34a;
   color: white;
 }
 
 #orderBtn.active {
-  background: #16a34a;
+  background:  #16a34a;
   color: white;
   border-color: #16a34a;
 }
@@ -245,8 +245,8 @@ body {
 
   border: 1px solid #e9d5ff;
   border-radius: 8px;
-  background: #c0aed3;
-  color: #111827;
+  background: #9554d6;
+  color: white;
 
   font-size: 15px;
   cursor: pointer;
@@ -254,7 +254,7 @@ body {
 }
 
 .profile-btn:hover {
-  background: #8747c7;
+  background: #7f3cc3;
   color: white;
 }
 
