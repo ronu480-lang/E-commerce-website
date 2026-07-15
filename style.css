@@ -19,31 +19,50 @@ body {
 ========================= */
 
 .login-page {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url("image.png") no-repeat center center;
+    background-size: cover;
+    z-index: 99999;
+    text-align: center;
+    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.082);
+}
+.Main_h{
+    font-size: 45px;
+    margin-bottom: 5px;
 }
 
-.login-card {
-  width: 380px;
-  height: 350px;
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  box-shadow: 0 4px 8px gray;
+.fusion{
+    color: #111827;   
 }
 
+.store{
+    color: #2563eb;   
+}
+
+.Top{
+    color: #666;
+    font-size: 17px;
+    margin-bottom: 30px;
+}
+
+.login-card{
+    width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    background: #fff;
+}
 .Heding_FusionStore {
   color: rgb(128, 128, 128);
   margin-bottom: 20px;
+  
+}
+.Login_P{
+  font: size 5px; ;
 }
 
 .login-card input {
@@ -245,7 +264,7 @@ body {
 
   border: 1px solid #e9d5ff;
   border-radius: 8px;
-  background: #9554d6;
+  background: rgb(228, 183, 68);
   color: white;
 
   font-size: 15px;
@@ -254,12 +273,12 @@ body {
 }
 
 .profile-btn:hover {
-  background: #7f3cc3;
+  background: goldenrod;
   color: white;
 }
 
 .profile-btn.active {
-  background: #9333ea;
+  background:goldenrod;
   color: white;
   border-color: #9333ea;
 }
@@ -706,6 +725,9 @@ body {
    FOOTER
 ========================= */
 
+.footer-box {
+  text-align: left;
+}
 .footer {
   background: #111827;
   color: #ffffff;
@@ -762,3 +784,576 @@ body {
   text-align: center;
 }
 
+
+/* ==================================================
+   MOBILE RESPONSIVE CSS
+   Is code ko style.css ke bilkul last me paste karo
+================================================== */
+
+@media screen and (max-width: 768px) {
+
+  /* =========================
+     BODY
+  ========================= */
+
+  body {
+    overflow-x: hidden;
+  }
+
+
+  /* =========================
+     NAVBAR
+  ========================= */
+
+  .navbar {
+    height: 60px;
+    padding: 0 8px;
+    gap: 8px;
+  }
+
+  .navbar h2 {
+    font-size: 16px;
+    white-space: nowrap;
+  }
+
+  #searchInput {
+    width: 130px;
+    height: 34px;
+    padding: 7px;
+    font-size: 11px;
+    border-radius: 6px;
+  }
+
+  .auth-box {
+    gap: 4px;
+  }
+
+  .auth-box button {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+
+  /* =========================
+     LOGIN PAGE
+  ========================= */
+
+  .login-card {
+    width: 90%;
+    max-width: 340px;
+    height: auto;
+    padding: 25px 18px;
+  }
+
+  .Heding_FusionStore {
+    font-size: 25px;
+  }
+
+  .login-card input {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .login-card button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+
+  /* =========================
+     MAIN LAYOUT
+  ========================= */
+
+  .main-layout {
+    padding-top: 60px;
+    min-height: 100vh;
+  }
+
+
+  /* =========================
+     SIDEBAR
+  ========================= */
+
+  .sidebar {
+    width: 115px;
+    height: calc(100vh - 60px);
+    top: 60px;
+    padding: 7px;
+  }
+
+  .sidebar h3 {
+    margin: 10px 0 6px;
+    font-size: 11px;
+  }
+
+  .sidebar select {
+    width: 100%;
+    height: 32px;
+    padding: 0 4px;
+    margin-bottom: 7px;
+    border-radius: 5px;
+    font-size: 9px;
+  }
+
+
+  /* Home Button */
+
+  #homeBtn {
+    padding: 8px 3px;
+    margin-bottom: 7px;
+    border-radius: 6px;
+    font-size: 10px;
+  }
+
+
+  /* My Orders Button */
+
+  #orderBtn {
+    padding: 8px 3px;
+    margin-bottom: 7px;
+    border-radius: 6px;
+    font-size: 10px;
+  }
+
+
+  /* Profile Button */
+
+  .profile-btn {
+    padding: 8px 3px;
+    margin-top: 7px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    font-size: 10px;
+  }
+
+  .sidebar-bottom {
+    margin-top: 5px;
+  }
+
+
+  /* =========================
+     CONTENT
+  ========================= */
+
+  .content {
+    width: calc(100% - 115px);
+    margin-left: 115px;
+    padding: 6px;
+  }
+
+  .content h1 {
+    font-size: 18px;
+  }
+
+  .content h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .content h3 {
+    font-size: 12px;
+  }
+
+  .content p {
+    font-size: 10px;
+  }
+
+
+  /* =========================
+     PRODUCT GRID — 3 CARDS
+  ========================= */
+
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+
+  /* =========================
+     PRODUCT CARD
+  ========================= */
+
+  .card {
+    min-width: 0;
+    padding: 5px 3px;
+    border-radius: 6px;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .card img {
+    width: 100%;
+    height: 60px;
+    object-fit: contain;
+  }
+
+  .card h3 {
+    margin: 4px 0;
+    font-size: 8px;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+
+  .card p {
+    margin: 2px 0;
+    font-size: 7px;
+    line-height: 1.2;
+  }
+
+  .card .price {
+    font-size: 8px;
+  }
+
+
+/* Card Buttons */
+
+.card .btn,
+.card .buy-card-btn {
+    display: inline-block;
+    padding: 8px 12px;   /* Text ke andar space */
+    margin-top: 6px;
+
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 400;
+
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.card .btn {
+  margin-right: 2px;
+  background: #2563eb;
+  color: white;
+}
+
+.card .buy-card-btn {
+  background: #16a34a;
+  color: white;
+}
+  /* =========================
+     QUANTITY BOX
+  ========================= */
+
+  .qty-box {
+    gap: 3px;
+    margin: 4px 0;
+  }
+
+  .qty-box button {
+    width: 19px;
+    height: 19px;
+    font-size: 9px;
+  }
+
+  .qty-box span {
+    font-size: 9px;
+  }
+
+
+  /* =========================
+     DETAIL PAGE
+  ========================= */
+
+  .detail-box {
+    width: 100%;
+  }
+
+  .detail-box img {
+    width: 100%;
+    max-width: 220px;
+    height: 150px;
+    object-fit: contain;
+  }
+
+  .detail-buttons {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .detail-buttons .btn,
+  .detail-buttons .buy-card-btn {
+    padding: 7px 10px;
+    font-size: 10px;
+  }
+
+  .back-btn {
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+
+
+  /* =========================
+     CART PAGE
+  ========================= */
+
+  #cartPage {
+    padding: 10px;
+    border-radius: 7px;
+  }
+
+  #cartPage h2 {
+    font-size: 16px;
+  }
+
+  #cartPage h3 {
+    font-size: 13px;
+  }
+
+  .cart-item {
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 6px;
+    gap: 7px;
+    align-items: flex-start;
+  }
+
+  .cart-item h3 {
+    font-size: 11px;
+  }
+
+  .cart-item p {
+    font-size: 9px;
+  }
+
+  .cart-item button {
+    padding: 5px 7px;
+    margin: 2px;
+    font-size: 8px;
+  }
+
+  #totalPrice {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .buy-btn {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+
+  /* =========================
+     CHECKOUT FORM
+  ========================= */
+
+  #checkoutSection {
+    margin-top: 15px;
+    padding: 10px;
+  }
+
+  #checkoutSection h2 {
+    font-size: 17px;
+  }
+
+  #checkoutSection h3 {
+    font-size: 13px;
+    margin: 8px 0;
+  }
+
+  #checkoutSection input,
+  #checkoutSection textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0;
+    font-size: 11px;
+  }
+
+  #checkoutSection textarea {
+    height: 60px;
+  }
+
+  #checkoutSection label {
+    margin: 7px 0;
+    font-size: 11px;
+  }
+
+  #checkoutSection label input {
+    width: auto;
+  }
+
+
+  /* =========================
+     PAYMENT BOX
+  ========================= */
+
+  .payment-box {
+    width: 100%;
+    margin: 7px 0;
+    padding: 8px;
+  }
+
+  .payment-box h4 {
+    font-size: 12px;
+  }
+
+  .payment-box p {
+    font-size: 9px;
+  }
+
+  .payment-box img {
+    width: 130px;
+    height: 130px;
+  }
+
+  .payment-box input {
+    width: 100%;
+    padding: 8px;
+    font-size: 10px;
+  }
+
+
+  /* =========================
+     ORDER CARDS
+  ========================= */
+
+  .order-card {
+    padding: 10px;
+    margin: 8px 0;
+  }
+
+  .order-card h3 {
+    font-size: 12px;
+  }
+
+  .order-card p {
+    font-size: 9px;
+  }
+
+
+  /* =========================
+     PROFILE POPUP
+  ========================= */
+
+  .profile-content {
+    width: 88%;
+    max-width: 310px;
+    padding: 20px;
+  }
+
+  .profile-content h2 {
+    font-size: 20px;
+  }
+
+  .profile-content p {
+    font-size: 13px;
+  }
+
+  .profile-content .logout-btn,
+  .profile-content .close-btn {
+    padding: 9px;
+    font-size: 12px;
+  }
+
+
+  /* =========================
+     FOOTER
+  ========================= */
+
+  .footer {
+    margin-left: 115px;
+    padding: 15px 8px 10px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .footer-box h2,
+  .footer-box h3 {
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  .footer-box p,
+  .footer-box a {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .footer-box input {
+    width: 100%;
+    padding: 7px;
+    font-size: 10px;
+  }
+
+  .footer-box button {
+    padding: 7px 10px;
+    font-size: 10px;
+  }
+
+  .copyright {
+    font-size: 9px;
+  }
+}
+
+
+/* ==================================================
+   EXTRA SMALL MOBILE
+================================================== */
+
+@media screen and (max-width: 480px) {
+
+  .navbar h2 {
+    font-size: 14px;
+  }
+
+  #searchInput {
+    width: 105px;
+    height: 31px;
+    padding: 5px;
+    font-size: 9px;
+  }
+
+  .sidebar {
+    width: 105px;
+    padding: 6px;
+  }
+
+  .content {
+    width: calc(100% - 105px);
+    margin-left: 105px;
+    padding: 4px;
+  }
+
+  .footer {
+    margin-left: 105px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .card {
+    padding: 4px 2px;
+  }
+
+  .card img {
+    height: 48px;
+  }
+
+  .card h3 {
+    font-size: 7px;
+  }
+
+  .card p,
+  .card .price {
+    font-size: 6px;
+  }
+
+  .card .btn,
+  .card .buy-card-btn {
+    padding: 4px 1px;
+    font-size: 6px;
+  }
+
+  .cart-item {
+    flex-direction: column;
+  }
+}
