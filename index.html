@@ -1,311 +1,642 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>FusionStore</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
+  <!-- =========================
+       NAVBAR
+  ========================== -->
+
   <nav class="navbar">
+
     <h2>FusionStore</h2>
 
-    <input type="text" id="searchInput" placeholder="Search Product..." />
-
+    <input type="text" id="searchInput" placeholder=" 🔍 Search Product..." autocomplete="off">
 
   </nav>
 
+
+  <!-- =========================
+       LOGIN PAGE
+  ========================== -->
+
   <section id="loginPage" class="login-page">
-      <h1 class="Main_h">
-    <span class="fusion">Fusion</span><span class="store">Store</span>
-  </h1>
+
+    <h1 class="Main_h">
+      <span class="fusion">Fusion</span>
+      <span class="store">Store</span>
+    </h1>
 
     <p class="Top">Shop Smart. Live Better.</p>
 
     <div class="login-card">
-      <h1 class="Heding_FusionStore">Welcome Back!</h1>
-      <p class="Heding_FusionStore">Login to continue shopping with FusionStore</p>
+
+      <h1 class="Heding_FusionStore">
+        Welcome Back!
+      </h1>
+
+      <p class="Heding_FusionStore">
+        Login to continue shopping with FusionStore
+      </p>
+
       <input type="email" id="loginEmail" placeholder="👤 Enter Your Email" autocomplete="off">
 
-      <input type="password" id="loginPassword" placeholder="🔒 Enter Your Email" autocomplete="new-password">
+      <input type="password" id="loginPassword" placeholder="🔒 Enter Your Password" autocomplete="new-password">
 
-      <button onclick="loginUser()">Login</button>
+      <button type="button" onclick="loginUser()">
+        Login
+      </button>
+
     </div>
+
   </section>
+
+
+  <!-- =========================
+       MAIN LAYOUT
+  ========================== -->
 
   <div class="main-layout">
 
-    <div class="sidebar">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
       <h3>Menu</h3>
 
-      <button id="homeBtn" onclick="showHome()">🏠 Home</button>
-      <button id="orderBtn" onclick="showOrders()">🛒 My Orders</button>
+      <button type="button" id="homeBtn" onclick="showHome()">
+        🏠 Home
+      </button>
+
+      <button type="button" id="orderBtn" onclick="showOrders()">
+        🛒 My Orders
+      </button>
+
 
       <h3>Categories</h3>
+
       <select id="categoryFilter">
-        <option value="all">All Products</option>
-        <option value="Electronics">Electronics</option>
-        <option value="Clothes">Clothes</option>
-        <option value="Books">Books</option>
-        <option value="Shoes">Shoes</option>
-        <option value="Accessories">Accessories</option>
+
+        <option value="all">
+          All Products
+        </option>
+
+        <option value="Electronics">
+          Electronics
+        </option>
+
+        <option value="Clothes">
+          Clothes
+        </option>
+
+        <option value="Books">
+          Books
+        </option>
+
+        <option value="Shoes">
+          Shoes
+        </option>
+
+        <option value="Accessories">
+          Accessories
+        </option>
+
       </select>
+
 
       <h3>Price Range</h3>
+
       <select id="priceFilter">
-        <option value="all">All Price</option>
-        <option value="500">Below ₹500</option>
-        <option value="1000">Below ₹1000</option>
-        <option value="2000">Below ₹2000</option>
-        <option value="5000">Below ₹5000</option>
+
+        <option value="all">
+          All Price
+        </option>
+
+        <option value="500">
+          Below ₹500
+        </option>
+
+        <option value="1000">
+          Below ₹1000
+        </option>
+
+        <option value="2000">
+          Below ₹2000
+        </option>
+
+        <option value="5000">
+          Below ₹5000
+        </option>
+
       </select>
 
+
       <h3>Sort</h3>
+
       <select id="sortFilter">
-        <option value="default">Default</option>
-        <option value="low">Price Low to High</option>
-        <option value="high">Price High to Low</option>
-        <option value="rating">Top Rating</option>
+
+        <option value="default">
+          Default
+        </option>
+
+        <option value="low">
+          Price Low to High
+        </option>
+
+        <option value="high">
+          Price High to Low
+        </option>
+
+        <option value="rating">
+          Top Rating
+        </option>
+
       </select>
+
 
       <div class="sidebar-bottom">
 
-        <button class="profile-btn" onclick="showProfile()">
+        <button type="button" class="profile-btn" onclick="showProfile()">
           👤 Profile
         </button>
 
       </div>
 
-      <div id="profileBox" class="profile-box">
+    </aside>
 
-        <div class="profile-content">
 
-          <h2>My Profile</h2>
-          <br>
-          <hr>
-          <br>
-
-          <p><strong>Name :</strong> <span id="userName"></span></p>
-          <br>
-          <p><strong>Email :</strong> <span id="userEmail"></span></p>
-          <br>
-          <div class="btn-group">
-            <button class="logout-btn" onclick="logoutUser()">Logout </button>
-            <button class="close-btn" onclick="closeProfile()">Cancel</button>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
 
     <main class="content">
 
+
+      <!-- HOME PAGE -->
+
       <section id="homePage">
+
         <div id="productList" class="product-grid"></div>
+
       </section>
 
+
+      <!-- PRODUCT DETAIL PAGE -->
+
       <section id="detailPage" class="hidden">
-        <button class="back-btn" onclick="showHome()">← Back</button>
+
+        <button type="button" class="back-btn" onclick="showHome()">
+          ← Back
+        </button>
+
         <div id="productDetail"></div>
+
       </section>
+
+
+      <!-- CART PAGE -->
 
       <section id="cartPage" class="hidden">
 
         <h2>Buy Products</h2>
 
         <h3>Cart Items</h3>
+
         <div id="cartItems"></div>
 
-        <h3 id="totalPrice">Total: ₹0</h3>
-        <button class="buy-btn" onclick="buyNow()">Buy Now</button>
+        <h3 id="totalPrice">
+          Total: ₹0
+        </h3>
 
-        <div id="checkoutSection" style="display:none;">
+        <button type="button" class="buy-btn" onclick="buyNow()">
+          Buy Now
+        </button>
+
+
+        <!-- CHECKOUT SECTION -->
+
+        <div id="checkoutSection" style="display: none;">
+
           <h2>Checkout</h2>
 
-          <input type="text" id="fullName" placeholder="Enter Your Name" />
-          <input type="number" id="mobile" placeholder="Enter Your Mobile Number" />
-          <input type="email" id="email" placeholder=" Enter Your Email ID " />
+          <input type="text" id="fullName" placeholder="Enter Your Name">
+
+          <input type="tel" id="mobile" placeholder="Enter Your Mobile Number" maxlength="10">
+
+          <input type="email" id="email" placeholder="Enter Your Email ID">
+
           <textarea id="address" placeholder="Enter Your Address"></textarea>
-          <input type="text" id="city" placeholder="Enter City" />
-          <input type="text" id="state" placeholder="Enter State" />
-          <input type="number" id="pincode" placeholder="Enter Pincode" />
+
+          <input type="text" id="city" placeholder="Enter City">
+
+          <input type="text" id="state" placeholder="Enter State">
+
+          <input type="text" id="pincode" placeholder="Enter Pincode" maxlength="6">
+
 
           <h3>Payment Method</h3>
 
-          <!-- PhonePe -->
-          <label>
+
+          <!-- PHONEPE -->
+
+          <label class="payment-label">
+
             <input type="radio" name="payment" value="PhonePe" onclick="showPaymentBox('phonepeBox', this)">
+
             PhonePe
+
           </label>
+
           <div class="payment-box" id="phonepeBox">
+
             <h4>PhonePe QR</h4>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=PhonePeDummy">
-            <p><b>UPI ID:</b> fusionstore@phonepe</p>
+
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=PhonePeDummy" alt="PhonePe QR Code">
+
+            <p>
+              <b>UPI ID:</b>
+              fusionstore@phonepe
+            </p>
+
           </div>
 
-          <label>
+
+          <!-- GOOGLE PAY -->
+
+          <label class="payment-label">
+
             <input type="radio" name="payment" value="GooglePay" onclick="showPaymentBox('gpayBox', this)">
+
             Google Pay
+
           </label>
+
           <div class="payment-box" id="gpayBox">
+
             <h4>Google Pay QR</h4>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=GooglePayDummy">
-            <p><b>UPI ID:</b> fusionstore@gpay</p>
+
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=GooglePayDummy"
+              alt="Google Pay QR Code">
+
+            <p>
+              <b>UPI ID:</b>
+              fusionstore@gpay
+            </p>
+
           </div>
 
-          <label>
+
+          <!-- PAYTM -->
+
+          <label class="payment-label">
+
             <input type="radio" name="payment" value="Paytm" onclick="showPaymentBox('paytmBox', this)">
+
             Paytm
+
           </label>
+
           <div class="payment-box" id="paytmBox">
+
             <h4>Paytm QR</h4>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=PaytmDummy">
-            <p><b>UPI ID:</b> fusionstore@paytm</p>
+
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=PaytmDummy" alt="Paytm QR Code">
+
+            <p>
+              <b>UPI ID:</b>
+              fusionstore@paytm
+            </p>
+
           </div>
 
-          <label>
+
+          <!-- UPI -->
+
+          <label class="payment-label">
+
             <input type="radio" name="payment" value="UPI" onclick="showPaymentBox('upiBox', this)">
+
             UPI ID
+
           </label>
+
           <div class="payment-box" id="upiBox">
+
             <h4>UPI Payment</h4>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=UPIDummy">
-            <p><b>UPI ID:</b> fusionstore@upi</p>
+
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=UPIDummy" alt="UPI QR Code">
+
+            <p>
+              <b>UPI ID:</b>
+              fusionstore@upi
+            </p>
+
           </div>
 
-          <label>
+
+          <!-- CARD PAYMENT -->
+
+          <label class="payment-label">
+
             <input type="radio" name="payment" value="Card" onclick="showPaymentBox('cardBox', this)">
+
             Debit / Credit Card
+
           </label>
+
           <div class="payment-box" id="cardBox">
-            <input type="text" placeholder="Card Number"><br><br>
-            <input type="text" placeholder="Card Holder Name"><br><br>
-            <input type="text" placeholder="MM/YY">
-            <input type="password" placeholder="CVV">
+
+            <input type="text" id="cardNumber" placeholder="Card Number" maxlength="16">
+
+            <input type="text" id="cardHolderName" placeholder="Card Holder Name">
+
+            <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+
+            <input type="password" id="cardCvv" placeholder="CVV" maxlength="3">
+
           </div>
 
-          <label>
+
+          <!-- CASH ON DELIVERY -->
+
+          <label class="payment-label">
+
             <input type="radio" name="payment" value="COD" onclick="showPaymentBox('codBox', this)">
+
             Cash on Delivery
+
           </label>
+
           <div class="payment-box" id="codBox">
+
             <h4>Cash on Delivery</h4>
-            <p>✔ Pay when your order is delivered.</p>
+
+            <p>
+              ✔ Pay when your order is delivered.
+            </p>
+
           </div>
 
-          <br>
 
-          <button class="buy-btn" onclick="placeOrder()">Place Order</button>
+          <button type="button" class="buy-btn" onclick="placeOrder()">
+            Place Order
+          </button>
+
+        </div>
+
       </section>
 
+
+      <!-- ORDERS PAGE -->
+
       <section id="ordersPage" class="hidden">
+
         <h2>🛒 My Orders</h2>
+
         <div id="ordersList">
+
           <p>No orders placed yet.</p>
+
         </div>
+
       </section>
 
     </main>
 
   </div>
 
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
   <footer class="footer">
 
-  <div class="footer-container">
+    <div class="footer-container">
 
-    <!-- Brand -->
-    <div class="footer-box">
-      <h2>FusionStore</h2>
-      <p>
-        FusionStore is your trusted online shopping destination for quality
-        products at affordable prices. Shop Electronics, Fashion, Books,
-        Shoes, Accessories, and much more—all in one place.
-      </p>
+
+      <!-- FOOTER BRAND -->
+
+      <div class="footer-brand">
+
+        <h2>FusionStore</h2>
+
+        <p>
+          Quality products at affordable prices.
+          Shop Electronics, Fashion, Books,
+          Shoes and Accessories.
+        </p>
+
+      </div>
+
+
+      <!-- FOOTER MENU -->
+
+      <div class="footer-links">
+
+        <a href="#home" onclick="showHome()">
+          Home
+        </a>
+
+        <a href="#home" onclick="showHome()">
+          Products
+        </a>
+
+        <a href="#orders" onclick="showOrders()">
+          My Orders
+        </a>
+
+        <a href="#cart" onclick="showCartPage()">
+          Cart
+        </a>
+
+        <a href="#profile" onclick="showProfile(); return false;">
+          Profile
+        </a>
+
+      </div>
+
+
+      <!-- HELP LINKS -->
+
+      <div class="footer-links">
+
+        <a href="#contact" onclick="showContactForm(); return false;">
+          Contact Us
+        </a>
+
+        <a href="#">
+          FAQs
+        </a>
+
+        <a href="#">
+          Shipping Policy
+        </a>
+
+        <a href="#">
+          Return Policy
+        </a>
+
+        <a href="#">
+          Privacy Policy
+        </a>
+
+      </div>
+
+
+      <!-- CATEGORY LINKS -->
+
+      <div class="footer-links">
+
+        <a href="#">Electronics</a>
+
+        <a href="#">Fashion</a>
+
+        <a href="#">Books</a>
+
+        <a href="#">Shoes</a>
+
+        <a href="#">Accessories</a>
+
+      </div>
+
+
+      <!-- FOOTER ACTION -->
+
+      <div class="footer-action">
+
+        <div class="social-icons">
+
+          <a href="#" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+
+          <a href="#" aria-label="Twitter">
+            <i class="fa-brands fa-twitter"></i>
+          </a>
+
+          <a href="#" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+
+          <a href="#" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+
+        </div>
+
+        <button type="button" onclick="showContactForm()">
+          Contact Us
+        </button>
+
+      </div>
+
     </div>
 
-    <!-- Quick Links -->
-    <div class="footer-box">
-      <h3>Quick Links</h3>
-      <a href="#">Home</a>
-      <a href="#">Products</a>
-      <a href="#">My Orders</a>
-      <a href="#">Cart</a>
-      <a href="#">Profile</a>
+
+    <div class="footer-line"></div>
+
+    <p class="footer-copy">
+      © 2026 FusionStore. All Rights Reserved.
+    </p>
+
+  </footer>
+
+
+
+  <!-- =========================
+       CONTACT POPUP
+  ========================== -->
+
+
+
+ <div id="contactPopup" class="contact-popup">
+
+    <div class="contact-box">
+
+        <button
+            class="contact-close-btn"
+            onclick="closeContactForm()">
+            &times;
+        </button>
+
+        <h2>Contact Us</h2>
+
+        <input type="text" id="contactName" placeholder="Your Name">
+
+        <input type="email" id="contactEmail" placeholder="Your Email">
+
+        <textarea id="contactMessage" placeholder="Your Message"></textarea>
+
+        <button class="send-btn" onclick="sendContactMessage()">
+            Send Message
+        </button>
+
     </div>
 
-    <!-- Customer Support -->
-    <div class="footer-box">
-      <h3>Customer Support</h3>
-      <a href="#">Contact Us</a>
-      <a href="#">FAQs</a>
-      <a href="#">Shipping Policy</a>
-      <a href="#">Return & Refund Policy</a>
-      <a href="#">Privacy Policy</a>
-    </div>
+</div>
 
-    <!-- Shop Categories -->
-    <div class="footer-box">
-      <h3>Shop Categories</h3>
-      <a href="#">Electronics</a>
-      <a href="#">Fashion</a>
-      <a href="#">Books</a>
-      <a href="#">Shoes</a>
-      <a href="#">Accessories</a>
-    </div>
+  <!-- =========================
+       PROFILE POPUP
+  ========================== -->
 
-    <!-- Newsletter -->
-    <div class="footer-box">
-      <h3>Stay Updated</h3>
-      <p>Subscribe to get the latest offers, discounts, and new arrivals.</p>
-
-      <input type="email" placeholder="Enter your email">
-      <button>Subscribe</button>
-
-      <br><br>
-
-      <p>📍 Agra, Uttar Pradesh, India</p>
-      <p>📞 +91 98765 43210</p>
-      <p>✉️ support@fusionstore.com</p>
-    </div>
-
-  </div>
-
-  <hr>
-
-  <div class="copyright">
-    <p>© 2026 FusionStore. All Rights Reserved.</p>
-    <p>Designed & Developed with ❤️ by Ronu</p>
-  </div>
-
-</footer>
-
-  <!-- Profile Popup -->
   <div id="profileBox" class="profile-box">
 
     <div class="profile-content">
 
       <h2>My Profile</h2>
-      <br>
-      <hr>
-      <br>
 
-      <p><strong>Name :</strong> <span id="userName"></span></p>
-      <br>
-      <p><strong>Email :</strong> <span id="userEmail"></span></p>
-      <br>
+      <hr>
+
+      <p>
+        <strong>Name:</strong>
+        <span id="userName"></span>
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        <span id="userEmail"></span>
+      </p>
+
       <div class="btn-group">
-        <button class="logout-btn" onclick="logoutUser()">Logout </button>
-        <button class="close-btn" onclick="closeProfile()">Close</button>
+
+        <button type="button" class="logout-btn" onclick="logoutUser()">
+          Logout
+        </button>
+
+        <button type="button" class="profile-close-btn" onclick="closeProfile()">
+          Close
+        </button>
+
       </div>
 
     </div>
 
   </div>
+
+
+  <!-- JAVASCRIPT FILE -->
+
   <script src="script.js"></script>
+
 </body>
 
 </html>
+```
