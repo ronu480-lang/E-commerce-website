@@ -508,10 +508,47 @@ function logoutUser() {
   // Agar user object use kar rahe ho to usko bhi clear kar do
   user = null;
 }
-function loginUser() {
+/* =========================================
+   LOGIN AUTHENTICATION
+========================================= */
 
-  let email = document.getElementById("loginEmail").value.trim();
-  let password = document.getElementById("loginPassword").value.trim();
+document.addEventListener("DOMContentLoaded", function () {
+  checkLoginStatus();
+  updateCartCount();
+  displayProducts(products);
+});
+
+window.addEventListener("hashchange", router);
+
+
+function checkLoginStatus() {
+  const savedUser = localStorage.getItem("user");
+
+  if (savedUser) {
+    try {
+      user = JSON.parse(savedUser);
+      openWebsite();
+    } catch (error) {
+      localStorage.removeItem("user");
+      user = null;
+      openLoginPage();
+    }
+  } else {
+    openLoginPage();
+  }
+}
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+function loginUser() {
+  const emailInput = document.getElementById("loginEmail");
+  const passwordInput = document.getElementById("loginPassword");
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
 
   if (email === "" || password === "") {
     alert("Please fill all login details");
@@ -519,19 +556,114 @@ function loginUser() {
   }
 
   user = {
-    email: email,
-    name: email.split("@")[0]
+    name: email.split("@")[0],
+    email: email
   };
 
   localStorage.setItem("user", JSON.stringify(user));
 
-  document.getElementById("loginPage").style.display = "none";
-  document.querySelector(".main-layout").style.display = "flex";
-  document.querySelector(".footer").style.display = "block";
+  openWebsite();
+}
+
+
+/* =========================================
+   WEBSITE OPEN
+========================================= */
+
+function openWebsite() {
+  const loginPage = document.getElementById("loginPage");
+  const navbar = document.querySelector(".navbar");
+  const mainLayout = document.querySelector(".main-layout");
+  const footer = document.querySelector(".footer");
+  const profileBox = document.getElementById("profileBox");
+  const contactPopup = document.getElementById("contactPopup");
+
+  if (loginPage) {
+    loginPage.style.display = "none";
+  }
+
+  if (navbar) {
+    navbar.style.display = "flex";
+  }
+
+  if (mainLayout) {
+    mainLayout.style.display = "flex";
+  }
+
+  if (footer) {
+    footer.style.display = "block";
+  }
+
+  if (profileBox) {
+    profileBox.style.display = "none";
+  }
+
+  if (contactPopup) {
+    contactPopup.style.display = "none";
+  }
+
+  document.body.style.overflow = "auto";
 
   updateAuthUI();
-  showHomePage();
+
+  if (
+    !window.location.hash ||
+    window.location.hash === "#login"
+  ) {
+    window.location.hash = "#home";
+  } else {
+    router();
+  }
 }
+
+
+/* =========================================
+   LOGIN PAGE OPEN
+========================================= */
+
+function openLoginPage() {
+  const loginPage = document.getElementById("loginPage");
+  const navbar = document.querySelector(".navbar");
+  const mainLayout = document.querySelector(".main-layout");
+  const footer = document.querySelector(".footer");
+  const profileBox = document.getElementById("profileBox");
+  const contactPopup = document.getElementById("contactPopup");
+
+  if (profileBox) {
+    profileBox.style.display = "none";
+  }
+
+  if (contactPopup) {
+    contactPopup.style.display = "none";
+  }
+
+  if (navbar) {
+    navbar.style.display = "none";
+  }
+
+  if (mainLayout) {
+    mainLayout.style.display = "none";
+  }
+
+  if (footer) {
+    footer.style.display = "none";
+  }
+
+  if (loginPage) {
+    loginPage.style.display = "flex";
+  }
+
+  document.body.style.overflow = "hidden";
+
+  if (window.location.hash !== "#login") {
+    window.location.hash = "#login";
+  }
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
 
 function logoutUser() {
   localStorage.removeItem("user");
@@ -540,9 +672,51 @@ function logoutUser() {
   user = null;
   cart = [];
 
-  updateAuthUI();
+  const emailInput = document.getElementById("loginEmail");
+  const passwordInput = document.getElementById("loginPassword");
+
+  if (emailInput) {
+    emailInput.value = "";
+  }
+
+  if (passwordInput) {
+    passwordInput.value = "";
+  }
+
   updateCartCount();
-  showHome();
+  updateAuthUI();
+  openLoginPage();
+}
+
+function router() {
+  const savedUser = localStorage.getItem("user");
+  const route = window.location.hash || "#home";
+
+  if (!savedUser) {
+    openLoginPage();
+    return;
+  }
+
+  if (route === "#login") {
+    window.location.hash = "#home";
+    return;
+  }
+
+  if (route === "#home") {
+    showHomePage();
+  } else if (route === "#cart") {
+    showCartPage();
+  } else if (route === "#orders") {
+    showOrdersPage();
+  } else if (route.startsWith("#product-")) {
+    const productId = Number(
+      route.replace("#product-", "")
+    );
+
+    showDetailsPage(productId);
+  } else {
+    window.location.hash = "#home";
+  }
 }
 
 
